@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const Form = () => {
+const Form = ({getAllUsers}) => {
     const [users, setUsers] = useState({
         firstName: "",
         lastName: "",
@@ -24,6 +24,7 @@ const Form = () => {
                 course: "",
             });
              
+            getAllUsers()
         } catch (error) {
             alert(error)
         }

@@ -2,19 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const User = () => {
+const User = ({user}) => {
 
-    const [user, setUsers] = useState([])
-
-    useEffect(() => {
-        const getAllUsers = async () => {
-            const getuser = await axios.get('http://localhost:8000')
-            setUsers(getuser.data)
-            console.log(user)
-        }
-
-        getAllUsers()
-    }, [])
 
     return (
      <div className="p-6">
