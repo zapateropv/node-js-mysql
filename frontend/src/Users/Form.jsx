@@ -58,8 +58,8 @@ const Form = ({getAllUsers}) => {
     return (
         <div className=" flex items-center justify-center bg-gray-100">
             <form
-                className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
-              
+                className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"     
+                   
             >
                 <h2 className="text-xl font-bold text-center text-gray-700">
                     Add User
