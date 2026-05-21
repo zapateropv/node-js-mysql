@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import useInsert from "../../custom_hooks/useInsert";
 
 const Form = ({getAllUsers}) => {
     const [users, setUsers] = useState({
@@ -13,7 +14,7 @@ const Form = ({getAllUsers}) => {
     const [isEditing, setIsEditing] = useState(false);
     const location = useLocation()
     const id = location.state?.id || {}
-  
+    const {insertUser} = useInsert({getAllUsers, setUsers, users})
     useEffect(() => {
           if(location.state?.editing){
          const { firstName, lastName, email, age, course } = location.state;
@@ -30,6 +31,7 @@ const Form = ({getAllUsers}) => {
     }
     },[location.state])
 
+    /*
     const insertUser = async (e) => {
         try {
             e.preventDefault()
@@ -50,7 +52,7 @@ const Form = ({getAllUsers}) => {
 
 
     }
-
+*/
     const updateUser = async () => {
         await axios.put(`http://localhost:8000/${id}`, users)
     }
