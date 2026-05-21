@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const Form = ({getAllUsers}) => {
     const [users, setUsers] = useState({
@@ -8,8 +9,26 @@ const Form = ({getAllUsers}) => {
         email: "",
         age: "",
         course: "",
-    });
+    }); 
+    const [isEditing, setIsEditing] = useState(false);
+    const location = useLocation()
+    const id = location.state?.id || {}
+  
+    useEffect(() => {
+          if(location.state?.editing){
+         const { firstName, lastName, email, age, course } = location.state;
 
+        setUsers({
+            firstName,
+            lastName,
+            email,
+            age,
+            course,
+        });
+
+          setIsEditing(true);
+    }
+    },[location.state])
 
     const insertUser = async (e) => {
         try {
@@ -32,11 +51,15 @@ const Form = ({getAllUsers}) => {
 
     }
 
+    const updateUser = async () => {
+        await axios.put(`http://localhost:8000/${id}`, users)
+    }
+
     return (
         <div className=" flex items-center justify-center bg-gray-100">
             <form
                 className="bg-white p-6 rounded-xl shadow-md w-full max-w-md space-y-4"
-                onSubmit={insertUser}
+              
             >
                 <h2 className="text-xl font-bold text-center text-gray-700">
                     Add User
@@ -89,11 +112,13 @@ const Form = ({getAllUsers}) => {
                 />
 
                 <button
-                    type="submit"
+                  
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition"
+                    onClick={isEditing ? ()=> updateUser() : (e)=> insertUser(e)}
                 >
-                    Add User
+                    {isEditing ? "Update" : "Add User"}
                 </button>
+               
             </form>
         </div>
     );

@@ -9,7 +9,7 @@ function App() {
     const getAllUsers = async () => {
             const getuser = await axios.get('http://localhost:8000')
             setUsers(getuser.data)
-            console.log(getuser)
+            console.log(getuser.data)
         }
 
 
@@ -21,7 +21,7 @@ function App() {
   return (
     <>
      <Form getAllUsers={getAllUsers}/>
-     <User user={user} />
+     <User user={user} setUsers={setUsers} />
        
     </>
   )
