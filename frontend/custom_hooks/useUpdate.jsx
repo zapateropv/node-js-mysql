@@ -1,13 +1,24 @@
-import React from 'react'
-import axios from 'axios'
+import axios from "axios";
 
-const useUpdate = () => {
+const useUpdate = ({ users, id, setUsers,getAllUsers,setIsEditing }) => {
+  const updateUser = async (e) => {
+    e.preventDefault()
+    if (!id) return;
 
-    const updateUser = async (id) =>{
-        await axios.post(`http://localhost:8000/${id}` )
-    }
+    await axios.put(`http://localhost:8000/${id}`, users);
+     
+            setUsers({
+                firstName: "",
+                lastName: "",
+                email: "",
+                age: "",
+                course: "",
+            });
+            setIsEditing(false)
+            getAllUsers()
+  };
 
-  return {updateUser}
-}
+  return { updateUser };
+};
 
-export default useUpdate
+export default useUpdate;

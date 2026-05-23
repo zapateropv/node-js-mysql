@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import useInsert from "../../custom_hooks/useInsert";
+import useUpdate from "../../custom_hooks/useUpdate";
 
 const Form = ({getAllUsers}) => {
+
+  
     const [users, setUsers] = useState({
         firstName: "",
         lastName: "",
@@ -13,8 +16,10 @@ const Form = ({getAllUsers}) => {
     }); 
     const [isEditing, setIsEditing] = useState(false);
     const location = useLocation()
-    const id = location.state?.id || {}
+    const id = location.state?.id 
     const {insertUser} = useInsert({getAllUsers, setUsers, users})
+    const {updateUser} = useUpdate({users, id, setUsers, getAllUsers, setIsEditing})
+    
     useEffect(() => {
           if(location.state?.editing){
          const { firstName, lastName, email, age, course } = location.state;
@@ -26,36 +31,13 @@ const Form = ({getAllUsers}) => {
             age,
             course,
         });
-//test
+
           setIsEditing(true);
     }
     },[location.state])
 
-    /*
-    const insertUser = async (e) => {
-        try {
-            e.preventDefault()
-            const user = await axios.post('http://localhost:8000', users)
-            
-            setUsers({
-                firstName: "",
-                lastName: "",
-                email: "",
-                age: "",
-                course: "",
-            });
-             
-            getAllUsers()
-        } catch (error) {
-            alert(error)
-        }
-
-
-    }
-*/
-    const updateUser = async () => {
-        await axios.put(`http://localhost:8000/${id}`, users)
-    }
+   
+  
 
     return (
         <div className=" flex items-center justify-center bg-gray-100">
@@ -116,7 +98,7 @@ const Form = ({getAllUsers}) => {
                 <button
                   
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition"
-                    onClick={isEditing ? ()=> updateUser() : (e)=> insertUser(e)}
+                    onClick={isEditing ? (e)=> updateUser(e) : (e)=> insertUser(e)}
                 >
                     {isEditing ? "Update" : "Add User"}
                 </button>
